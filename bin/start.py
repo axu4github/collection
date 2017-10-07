@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import click
-import commands
+# import commands
 import os
 import sys
 reload(sys)
@@ -18,10 +18,12 @@ def main(spider_name):
     if spider_name is None:
         pass
 
-    (status, output) = commands.getstatusoutput(COMMAND_PATTERN.format(
-        BASE_DIR=BASE_DIR, spider_name=spider_name))
+    command = COMMAND_PATTERN.format(
+        BASE_DIR=BASE_DIR, spider_name=spider_name)
+    # (status, output) = commands.getstatusoutput(command)
 
-    click.echo(output)
+    # click.echo(output)
+    os.system(command)
 
 
 if __name__ == "__main__":
