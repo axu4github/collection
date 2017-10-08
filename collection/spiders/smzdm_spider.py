@@ -11,6 +11,7 @@ class SmzdmSipder(scrapy.Spider):
 
     def parse(self, response):
         """解析列表"""
+        start_page = 2
         end_page = 6
         paging_url = "http://www.smzdm.com/jingxuan/p{page}"
 
@@ -29,6 +30,8 @@ class SmzdmSipder(scrapy.Spider):
                 price = item.xpath(
                     "h5[contains(@class, 'feed-block-title')]/a/span/text()").extract_first()
 
+                print title
+
                 yield {
                     "unique": unique,
                     "url": url,
@@ -36,8 +39,9 @@ class SmzdmSipder(scrapy.Spider):
                     "price": price
                 }
 
-        for i in range(2, end_page):
-            yield scrapy.Request(paging_url.format(page=i), callback=self.parse)
+        if end_page > start_page:
+            for i in range(start_page, end_page):
+                yield scrapy.Request(paging_url.format(page=i), callback=self.parse)
 
     def extract_elements(self, response, xpath):
         """提取元素集合"""
